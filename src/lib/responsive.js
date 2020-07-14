@@ -57,7 +57,7 @@ function responsive( WrappedComponent, {effect, breakpoint = '768px', ...rest } 
       this.newQuery(this.props.query);
     }
 
-    componentWillReceiveProps({ query }) {
+    UNSAFE_componentWillReceiveProps({ query }) {
       this.newQuery(query);
     }
 
