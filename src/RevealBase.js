@@ -166,6 +166,7 @@ class RevealBase extends React.Component {
           animationDelay: `${inOut.delay}ms`,
           animationIterationCount: inOut.forever ? 'infinite' : inOut.count,
           opacity: 1,
+          height: '100%',
           animationName,
         },
         className: inOut.className
