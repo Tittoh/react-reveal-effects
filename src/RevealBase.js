@@ -10,8 +10,6 @@
 import React from 'react';
 import { string, object, number, bool, func, oneOfType, oneOf, shape, element } from 'prop-types';
 import { namespace, ssr, disableSsr, globalHide, hideAll, cascade, collapseend, fadeOutEnabled, observerMode, raf } from './lib/globals';
-//import Step from './lib/Step';
-//import throttle from './lib/throttle';
 
 const
   inOut = shape({
@@ -24,30 +22,19 @@ const
     reverse: bool,
   }),
   propTypes = {
-    //when: any,
-    //spy: any,
-    //margin: number,
-    collapse: bool,// oneOfType([bool, shape({ tag: string, props: object })]),
+    collapse: bool,
     collapseEl: element,
     cascade: bool,
     wait: number,
-//    step: oneOfType([instanceOf(Step), string]),
     force: bool,
     disabled: bool,
     appear: bool,
     enter: bool,
     exit: bool,
     fraction: number,
-    //children: element.isRequired,
     refProp: string,
     innerRef: func,
     onReveal: func,
-    //onEnter: func,
-    //onEntering: func,
-    //onEntered: func,
-    //onExit: func,
-    //onExiting: func,
-    //onExited: func,
     unmountOnExit: bool,
     mountOnEnter: bool,
     inEffect: inOut.isRequired,
@@ -58,57 +45,33 @@ const
   },
   defaultProps = {
     fraction: 0.2,
-    //when: true,
     refProp: 'ref',
-    //margin: 0,
   },
-  //,
-  //contextTypes = {
-  //  stepper: object,
-  //};
 
   contextTypes = {
     transitionGroup: object,
   };
 
-  //childContextTypes = {
-  //  transitionGroup: ()=>{},
-  //};
-
 class RevealBase extends React.Component {
-
-  //getChildContext() {
-  //  return { transitionGroup: null }; // allows for nested Transitions
-  //}
-
   constructor(props, context) {
     super(props, context);
     this.isOn = props.when !== undefined ? !!props.when : true;
     this.state = {
-      collapse: props.collapse //&& (props.appear || (context.transitionGroup&&!context.transitionGroup.isMounting))
+      collapse: props.collapse
        ? RevealBase.getInitialCollapseStyle(props)
        : void 0,
       style: {
         opacity: (!this.isOn||props.ssrReveal) && props.outEffect ? 0 : void 0,
-        //visibility: props.when  ? 'visible' : 'hidden',
       },
     };
     this.savedChild = false;
-    //this.isListener = false;
     this.isShown = false;
-    //this.ticking = false;
-    //this.observerMode = observerMode && !this.props.disableObserver;
     if (!observerMode) {
       this.revealHandler = this.makeHandler(this.reveal);
       this.resizeHandler = this.makeHandler(this.resize);
     }
     else
       this.handleObserve = this.handleObserve.bind(this);
-    //this.revealHandler = myThrottle(this.reveal.bind(this, false));
-    //this.revealHandler = rafThrottle(this.reveal.bind(this, false));
-    //this.revealHandler = rafThrottle(throttle(this.reveal.bind(this, false), 66));
-    //this.revealHandler = throttle(rafThrottle(this.reveal.bind(this, false)), 66);
-    //this.resizeHandler = throttle(this.resize.bind(this), 500);
     this.saveRef = this.saveRef.bind(this);
   }
 
@@ -118,10 +81,14 @@ class RevealBase extends React.Component {
       this.childRef(node);
     if (this.props.innerRef)
       this.props.innerRef(node);
-    if (this.el !== node) { //probably redundant check
+    if (this.el !== node) {
       this.el = node && ('offsetHeight' in node) ? node : undefined;
       this.observe(this.props, true);
     }
+  }
+
+  window() {
+    return this.props.iframe ? document.getElementById(this.props.iframe).contentWindow : window;
   }
 
   invisible() {
@@ -129,37 +96,27 @@ class RevealBase extends React.Component {
       return;
     this.savedChild = false;
     if (!this.isShown) {
-      this.setState( { hasExited: true, collapse: this.props.collapse?{...this.state.collapse, visibility: 'hidden'}: null, style: { /*...this.state.style, visibility: 'hidden'*/opacity: 0}/*, collapsing: false */});
-      //if (this.props.onExited)
-      //  this.props.onExited(this.el);
+      this.setState( { hasExited: true, collapse: this.props.collapse?{...this.state.collapse, visibility: 'hidden'}: null, style: { opacity: 0}});
       if (!observerMode && this.props.collapse)
-        window.document.dispatchEvent(collapseend);
+      this.window().document.dispatchEvent(collapseend);
     }
   }
 
   animationEnd(func, cascade, { forever, count, delay, duration }) {
     if (forever)
       return;
-    //const el = this.finalEl || this.el;
     const handler = () => {
       if (!this || !this.el)
         return;
       this.animationEndTimeout = void 0;
-      //el.removeEventListener('animationend', handler);
       func.call(this);
     };
     this.animationEndTimeout = window.setTimeout(handler, delay+(duration+(cascade?duration:0)*count));
-    //el.addEventListener('animationend', handler);
-    //this.animationEndEl = el;
-    //this.animationEndHandler = handler;
   }
 
   getDimensionValue() {
     return this.el.offsetHeight + parseInt(window.getComputedStyle(this.el, null).getPropertyValue('margin-top'),10) + parseInt(window.getComputedStyle(this.el, null).getPropertyValue('margin-bottom'), 10);
   }
-      //    //const delta = this.props.duration>>2,
-      //    //      duration = delta,
-      //    //      delay = this.props.delay + (this.isOn ? 0 : this.props.duration - delta)
 
   collapse(state, props, inOut) {
     const total = inOut.duration + (props.cascade ? inOut.duration : 0),
@@ -171,22 +128,15 @@ class RevealBase extends React.Component {
     }
     else {
       let delta1 = total>>2, delta2 = delta1>>1;
-      duration = delta1; // + (props.when ? 0 : delta2),
+      duration = delta1;
       delay = inOut.delay + (this.isOn ? 0 : total - delta1 - delta2);
       state.style.animationDuration = `${total - delta1 + (this.isOn ? delta2 : -delta2)}ms`;
       state.style.animationDelay = `${inOut.delay + (this.isOn ? delta1 - delta2 : 0)}ms`;
     }
-    //const delta = total>>2,
-    //      duration = props.when ? delta : total - delta,
-    //      delay = inOut.delay + (props.when ? 0 : delta);
-          //duration = total;
-          //delay = inOut.delay;
     state.collapse = {
       height,
-      transition: `height ${duration}ms ease ${delay}ms`,// padding ${duration}ms ease ${delay}ms, border ${duration}ms ease ${delay}ms`,
+      transition: `height ${duration}ms ease ${delay}ms`,
       overflow: props.collapseOnly ? 'hidden' : undefined,
-      //margin: 0, padding: 0, border: '1px solid transparent',
-      //boxSizing: 'border-box',
     };
     return state;
   }
@@ -200,16 +150,13 @@ class RevealBase extends React.Component {
     this.isShown = this.isOn;
     const leaving = !this.isOn && props.outEffect,
           inOut = props[leaving ? 'outEffect' : 'inEffect'];
-          //collapse = 'collapse' in props;
     let animationName = (('style' in inOut) && inOut.style.animationName) || void 0;
     let state;
     if (!props.collapseOnly)
     {
       if ((props.outEffect||this.isOn) && inOut.make)
         animationName = inOut.make;
-        //animationName = inOut.make(leaving, props);
-      //animationName = (!leaving && this.enterAnimation) || inOut.make(leaving, props);
-      state = {/* status: leaving ? 'exiting':'entering',*/
+      state = {
         hasAppeared: true,
         hasExited: false,
         collapse: undefined,
@@ -219,7 +166,6 @@ class RevealBase extends React.Component {
           animationDelay: `${inOut.delay}ms`,
           animationIterationCount: inOut.forever ? 'infinite' : inOut.count,
           opacity: 1,
-          //visibility: 'visible',
           animationName,
         },
         className: inOut.className
@@ -234,8 +180,6 @@ class RevealBase extends React.Component {
     }
     else
       this.savedChild = false;
-      //if (collapse)
-      //  this.animationEnd( () => this.setState({ collapse: void 0 }), props.cascade, inOut);
     this.onReveal(props);
   }
 
@@ -244,7 +188,6 @@ class RevealBase extends React.Component {
       if (this.onRevealTimeout)
         this.onRevealTimeout = window.clearTimeout(this.onRevealTimeout);
       props.wait ? this.onRevealTimeout = window.setTimeout(props.onReveal, props.wait) : props.onReveal();
-      //props.wait ? this.onRevealTimeout = window.setTimeout( this.isOn ? (() => props.onReveal(true)):(() => props.onReveal(false)), props.wait) : props.onReveal( this.isOn );
     }
   }
 
@@ -324,40 +267,31 @@ class RevealBase extends React.Component {
     }
     if(this.isOn)
       this.props.force ? this.animate(this.props) : this.reveal(this.props);
-    //  return this.animate(this.props);
-    //
-    //  this.reveal(this.props);
   }
 
   cascade(children) {
     let newChildren;
     if (typeof children === 'string') {
           newChildren = children.split("").map( (ch, index) => <span key={index} style={{display: 'inline-block', whiteSpace:'pre'}}>{ch}</span> );
-          //reverse = this.props.reverse;
         }
         else
           newChildren = React.Children.toArray(children);
-    //if (newChildren.length === 1)
-    //  return newChildren;
     let { duration, reverse } = this.props[this.isOn || !this.props.outEffect ?'inEffect':'outEffect'],
           count = newChildren.length,
           total = duration*2;
-          //reverse = false;
     if (this.props.collapse) {
       total = parseInt(this.state.style.animationDuration, 10);
       duration = total/2;
     }
     let i = reverse ? count : 0;
-    //let i = 0;
     newChildren = newChildren.map( child =>
-      typeof child === 'object' && child //&& 'type' in child && typeof child.type === 'string'
+      typeof child === 'object' && child
       ? React.cloneElement(child,{
           style: {
             ...child.props.style,
             ...this.state.style,
             animationDuration: Math.round(cascade( reverse ? i-- : i++ /*i++*/,0 , count, duration, total)) + 'ms',
           },
-          //ref: i === count? (el => this.finalEl = el) : void 0,
         })
       : child );
     return newChildren;
@@ -370,7 +304,7 @@ class RevealBase extends React.Component {
     };
   }
 
-  componentWillReceiveProps (props) {
+  UNSAFE_componentWillReceiveProps (props) {
     if (props.when !== undefined)
       this.isOn = !!props.when;
     if (props.fraction !== this.props.fraction)
@@ -411,8 +345,6 @@ class RevealBase extends React.Component {
     else
       mount = !this.props.unmountOnExit || !this.state.hasExited || this.isOn;
     const child = this.getChild();
-    //if (this.props.disabled)
-    //  return child;
     if (typeof child.ref === 'function')
       this.childRef = child.ref;
     let
@@ -430,14 +362,11 @@ class RevealBase extends React.Component {
     else
       newStyle = this.props.disabled ? style : { ...style, ...this.state.style };
     const props = { ...this.props.props, className: newClass, style: newStyle, [this.props.refProp]: this.saveRef };
-    //if (this.props.collapse && !this.props.disabled)
-    //  props.key = 1;
     const el = React.cloneElement(child, props, mount ? newChildren||children :  undefined);
     if ( this.props.collapse !== undefined )
       return this.props.collapseEl
         ? React.cloneElement(this.props.collapseEl, { style: {...this.props.collapseEl.style, ...(this.props.disabled ? undefined : this.state.collapse)}, children: (el) })
         : <div style={ this.props.disabled ? undefined : this.state.collapse } children={el} />;
-      //return <div {...this.props.collapse} style={ this.props.disabled ? undefined : this.state.collapse } children={el} />;
     return el;
   }
 
@@ -479,37 +408,33 @@ class RevealBase extends React.Component {
       this.isShown = this.isOn;
       this.setState({ hasExited: !this.isOn, hasAppeared: true, collapse: undefined, style: { opacity: this.isOn || !props.outEffect ? 1 : 0 } });
       this.onReveal(props);
-      //if (this.props.onReveal && this.isOn)
-      //  this.props.wait ? this.onRevealTimeout = window.setTimeout(this.props.onReveal, this.props.wait) : this.props.onReveal();
     }
   }
 
   listen() {
     if (!observerMode && !this.isListener) {
       this.isListener = true;
-      window.addEventListener('scroll', this.revealHandler, { passive: true });
-      window.addEventListener('orientationchange', this.revealHandler, { passive: true });
-      window.document.addEventListener('visibilitychange', this.revealHandler, { passive: true });
-      window.document.addEventListener('collapseend', this.revealHandler, { passive: true });
-      window.addEventListener('resize', this.resizeHandler, { passive: true });
+      this.window().addEventListener('scroll', this.revealHandler, { passive: true });
+      this.window().addEventListener('orientationchange', this.revealHandler, { passive: true });
+      this.window().document.addEventListener('visibilitychange', this.revealHandler, { passive: true });
+      this.window().document.addEventListener('collapseend', this.revealHandler, { passive: true });
+      this.window().addEventListener('resize', this.resizeHandler, { passive: true });
     }
   }
 
   unlisten() {
     if (!observerMode && this.isListener) {
-      window.removeEventListener('scroll', this.revealHandler, { passive: true });
-      window.removeEventListener('orientationchange', this.revealHandler, { passive: true });
-      window.document.removeEventListener('visibilitychange', this.revealHandler, { passive: true });
-      window.document.removeEventListener('collapseend', this.revealHandler, { passive: true });
-      window.removeEventListener('resize', this.resizeHandler, { passive: true });
+      this.window().removeEventListener('scroll', this.revealHandler, { passive: true });
+      this.window().removeEventListener('orientationchange', this.revealHandler, { passive: true });
+      this.window().document.removeEventListener('visibilitychange', this.revealHandler, { passive: true });
+      this.window().document.removeEventListener('collapseend', this.revealHandler, { passive: true });
+      this.window().removeEventListener('resize', this.resizeHandler, { passive: true });
       this.isListener = false;
     }
     if(this.onRevealTimeout)
       this.onRevealTimeout = window.clearTimeout(this.onRevealTimeout);
     if (this.animationEndTimeout)
       this.animationEndTimeout = window.clearTimeout(this.animationEndTimeout);
-    //if (this.animationEndHandler)
-    //   this.animationEndEl.removeEventListener('animationend', this.animationEndHandler);
   }
 
 }
@@ -518,5 +443,4 @@ RevealBase.propTypes = propTypes;
 RevealBase.defaultProps = defaultProps;
 RevealBase.contextTypes = contextTypes;
 RevealBase.displayName = 'RevealBase';
-//RevealBase.childContextTypes = childContextTypes;
 export default RevealBase;
