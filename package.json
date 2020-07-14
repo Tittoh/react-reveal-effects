@@ -1,8 +1,18 @@
 {
   "name": "react-reveal-effects",
   "author": "Titus Kipkemboi <tittohtech@gmail.com>",
-  "version": "1.0.0",
-  "description": "Animate components on scroll",
+  "version": "1.0.2",
+  "description": "Add fancy animations on scroll to your react application.",
+  "keywords": [
+    "react",
+    "reveal",
+    "animation",
+    "reactrevealeffects",
+    "reactanimation",
+    "scroll",
+    "scrolleffects",
+    "scrollanimation"
+  ],
   "homepage": "https://github.com/Tittoh/react-reveal-effects#readme",
   "main": "index.js",
   "repository": {
@@ -50,6 +60,5 @@
     "prepare": "npm run build && npm run test -- -u;",
     "clean": "./node_modules/gulp/bin/gulp.js clean"
   },
-
   "license": "MIT"
 }
