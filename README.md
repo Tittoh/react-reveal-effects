@@ -1,8 +1,9 @@
-![React Reveal Effects](https://github.com/Tittoh/react-reveal-effects/workflows/React%20Reveal%20Effects/badge.svg?branch=master) ![React Reveal Effects](https://github.com/Tittoh/react-reveal-effects/workflows/React%20Reveal%20Effects/badge.svg?branch=master&event=issues)
-
 # React Reveal Effects
 
-This psckage is an updated version of [react-reveal](https://github.com/rnosov/react-reveal) by Roman Nosov.
+![npm](https://img.shields.io/npm/v/react-reveal-effects) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tittoh/react-reveal-effects/React%20Reveal%20Effects) ![GitHub issues](https://img.shields.io/github/issues/tittoh/react-reveal-effects) ![npm](https://img.shields.io/npm/dw/react-reveal-effects) ![npm](https://img.shields.io/npm/dt/react-reveal-effects)
+
+
+This package is an updated version of [react-reveal](https://github.com/rnosov/react-reveal) by Roman Nosov.
 Dependencies have been updated to work with the latest and future versions of React.
 Examples can be found here [React Reveal Examples](https://www.react-reveal.com/)
 
@@ -12,9 +13,9 @@ on scroll animations in your application.
 If you liked this package, don't forget to star
 the [Github repository](https://github.com/rnosov/react-reveal-effects).
 
-## Live Examples
+## Examples
 
-A number of simple effect examples:
+Some of the animations include:
 - Fade
 - Flip
 - Rotate
