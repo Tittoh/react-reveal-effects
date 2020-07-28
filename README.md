@@ -5,6 +5,15 @@
 
 This package is an updated version of [react-reveal](https://github.com/rnosov/react-reveal) by Roman Nosov.
 Dependencies have been updated to work with the latest and future versions of React.
+
+#### Fixes
+- Upgraded `Babel` to version 7
+- Added `iframe` support.
+- Fixed check that `children` is not `null`
+- Fixed deprecated `componentWillReceiveProps` to `UNSAFE_componentWillReceiveProps`
+- Fixed css `height` issue
+
+
 Examples can be found here [React Reveal Examples](https://www.react-reveal.com/)
 
 This is an animation library for React. It's MIT licensed, has a tiny footprint
