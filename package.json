@@ -1,7 +1,7 @@
 {
   "name": "react-reveal-effects",
   "author": "Titus Kipkemboi <tittohtech@gmail.com>",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Add fancy animations on scroll to your react application.",
   "keywords": [
     "react",
