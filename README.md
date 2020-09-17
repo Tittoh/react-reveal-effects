@@ -1,5 +1,4 @@
-![npm](https://img.shields.io/npm/v/react-reveal-effects) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tittoh/react-reveal-effects/React%20Reveal%20Effects) ![GitHub issues](https://img.shields.io/github/issues/tittoh/react-reveal-effects) ![npm](https://img.shields.io/npm/dw/react-reveal-effects) ![npm](https://img.shields.io/npm/dt/react-reveal-effects)
-
+![npm](https://img.shields.io/npm/v/react-reveal-effects) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tittoh/react-reveal-effects/React%20Reveal%20Effects) ![GitHub issues](https://img.shields.io/github/issues/tittoh/react-reveal-effects) ![Maintenance](https://img.shields.io/maintenance/yes/2020)
 # React Reveal Effects
 
 This package is an updated version of [react-reveal](https://github.com/rnosov/react-reveal) by Roman Nosov.
