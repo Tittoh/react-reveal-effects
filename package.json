@@ -1,7 +1,7 @@
 {
   "name": "react-reveal-effects",
   "author": "Titus Kipkemboi <tittohtech@gmail.com>",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Add fancy animations on scroll to your react application.",
   "keywords": [
     "react",
@@ -31,11 +31,11 @@
   "devDependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
-    "babel-jest": "^26.3.0",
-    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/plugin-proposal-function-bind": "^7.11.5",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "babel-jest": "^26.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.4",
     "gulp": "^4.0.2",
