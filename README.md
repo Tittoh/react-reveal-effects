@@ -1,14 +1,14 @@
-![npm](https://img.shields.io/npm/v/react-reveal-effects) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tittoh/react-reveal-effects/React%20Reveal%20Effects) ![GitHub issues](https://img.shields.io/github/issues/tittoh/react-reveal-effects) ![Maintenance](https://img.shields.io/maintenance/yes/2020)
+![npm](https://img.shields.io/npm/v/react-reveal-effects) ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/tittoh/react-reveal-effects/React%20Reveal%20Effects) ![GitHub issues](https://img.shields.io/github/issues/tittoh/react-reveal-effects) ![Maintenance](https://img.shields.io/maintenance/yes/2021)
 # React Reveal Effects
 
 This package is an updated version of [react-reveal](https://github.com/rnosov/react-reveal) by Roman Nosov.
 Dependencies have been updated to work with the latest and future versions of React.
 #### Fixes
-- Upgraded `Babel` to version 7
-- Added `iframe` support.
-- Fixed check that `children` is not `null`
-- Fixed deprecated `componentWillReceiveProps` to `UNSAFE_componentWillReceiveProps`
-- Fixed css `height` issue
+- Upgrade `Babel`
+- Add `iframe` support.
+- Fix check that `children` is not `null`
+- Fix deprecated `componentWillReceiveProps` to `UNSAFE_componentWillReceiveProps`
+- Fix css `height` issues
 
 
 Examples can be found here [React Reveal Examples](https://www.react-reveal.com/)
@@ -17,7 +17,7 @@ This is an animation library for React. It's MIT licensed, has a tiny footprint
 and written specifically for React in ES6. It can be used to create various cool reveal
 on scroll animations in your application.
 If you liked this package, don't forget to star
-the [Github repository](https://github.com/rnosov/react-reveal-effects).
+the [Github repository](https://github.com/Tittoh/react-reveal-effects).
 
 ## Live Examples
 
@@ -160,9 +160,16 @@ Or you you can do it on a per element basis using `ssrFadeout` prop:
 
 One last option is to use `ssrReveal` prop. If enabled, this option will suppress both flickering and `ssrFadeout` effect. The unfortunate drawback of this option is that the revealed content will appear hidden to Googlebot and to anyone with javascript switched off. So it will makes sense for images and/or headings which are duplicated elsewhere on the page.
 
-## Forking This Package
+## Forking this tackage
 
-Clone the this repository using the following command:
+Fork on github
+```
+https://github.com/Tittoh/react-reveal-effects
+```
+
+Or
+
+Clone the the repository using the following command:
 
 ```sh
 git clone https://github.com/Tittoh/react-reveal-effects.git
@@ -174,7 +181,7 @@ In the cloned directory, you can run following commands:
 npm install
 ```
 
-Installs required node modules
+Install required node modules
 
 ```sh
 npm run build
